@@ -1,27 +1,20 @@
-let dots_per_circle = 16;
-let circles_per_torus = 128;
+let A = 0;
+let B = 0;
 
-let r1 = 1; // Radius of circle
-let r2 = 2; // Radius of torus
-
-let k1 = 1024; // Camera-screen distance
-let k2 = 16; // Camera-donut distance
-
-let A = 0; // Y rotation
-let B = 0; // X rotation
+const config = {};
 
 function render (context) {
     context.fillStyle = '#000';
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
-    const theta_spacing = 2*Math.PI*r1 / dots_per_circle;
-    const phi_spacing = 2*Math.PI*r2 / circles_per_torus;
+    const theta_spacing = 2*Math.PI*config.r1 / config.dots;
+    const phi_spacing = 2*Math.PI*config.r2 / config.slices;
 
     for (let theta = 0; theta < 2*Math.PI; theta += theta_spacing) {
         for (let phi = 0; phi < 2*Math.PI; phi += phi_spacing) {
             let vertex = Matrix.add(
-                [[r2, 0, 0]],
-                [[r1 * Math.cos(theta), 0, r1 * Math.sin(theta)]]
+                [[config.r2, 0, 0]],
+                [[config.r1 * Math.cos(theta), 0, config.r1 * Math.sin(theta)]]
             );
 
             vertex = Matrix.multiply(vertex, [
@@ -41,8 +34,8 @@ function render (context) {
 
             const [x, y, z] = vertex[0];
 
-            px = (k1 * x) / (k2 + z);
-            py = (k1 * y) / (k2 + z);
+            px = (config.k1 * x) / (config.k2 + z);
+            py = (config.k1 * y) / (config.k2 + z);
 
             px += context.canvas.width / 2;
             py += context.canvas.height / 2;
@@ -52,16 +45,28 @@ function render (context) {
         }
     }
 
-    A += 0.07;
-    B += 0.03;
+    A += config.rotation_x;
+    B += config.rotation_y;
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', event => update(event.target));
+        update(input);
+    });
+
     const canvas = document.querySelector('canvas');
     const context = canvas.getContext('2d');
 
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
-    window.setInterval(() => render(context), 50);
+    (function tick() {
+        render(context)
+        setTimeout(tick, config.speed)
+    })();
 });
+
+function update (input) {
+    config[input.name] = parseFloat(input.value);
+}
