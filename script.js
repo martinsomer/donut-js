@@ -12,27 +12,28 @@ function render(context) {
         for (let phi = 0; phi < 2*Math.PI; phi += phi_spacing) {
             let vertex = Matrix.add(
                 [[config.r2, 0, 0]],
-                [[config.r1 * Math.cos(theta), 0, config.r1 * Math.sin(theta)]]
+                [[config.r1 * Math.cos(theta), 0, config.r1 * Math.sin(theta)]],
             );
 
-            vertex = Matrix.multiply(vertex,
+            const rotation_matrix = Matrix.multiply(
                 [
                     [Math.cos(phi), -Math.sin(phi), 0],
                     [Math.sin(phi), Math.cos(phi), 0],
-                    [0, 0, 1]
+                    [0, 0, 1],
                 ],
                 [
                     [1, 0 , 0],
                     [0, Math.cos(state.x), -Math.sin(state.x)],
-                    [0, Math.sin(state.x), Math.cos(state.x)]
+                    [0, Math.sin(state.x), Math.cos(state.x)],
                 ],
                 [
                     [Math.cos(state.y), 0, Math.sin(state.y)],
                     [0, 1, 0],
-                    [-Math.sin(state.y), 0, Math.cos(state.y)]
+                    [-Math.sin(state.y), 0, Math.cos(state.y)],
                 ],
             );
 
+            vertex = Matrix.multiply(vertex, rotation_matrix);
             const [x, y, z] = vertex[0];
 
             px = (config.k1 * x) / (config.k2 + z);
@@ -41,7 +42,18 @@ function render(context) {
             px += context.canvas.width / 2;
             py += context.canvas.height / 2;
 
-            context.fillStyle = 'rgba(255, 255, 255, 1)';
+            let luminance = 1;
+            if (config.shading) {
+                const normal = Matrix.multiply(
+                    [[Math.cos(theta), 0, Math.sin(theta)]],
+                    rotation_matrix,
+                );
+
+                const [nx, ny, nz] = normal[0];
+                luminance = nx * config.light_x + ny * config.light_y + nz * config.light_z;
+            }
+
+            context.fillStyle = `rgba(255, 255, 255, ${luminance})`;
             context.fillRect(px, py, 1.5, 1.5);
         }
     }
@@ -50,7 +62,6 @@ function render(context) {
         x: state.x + config.rotation_x,
         y: state.y + config.rotation_y,
     });
-
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -72,5 +83,13 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function update (input) {
-    config[input.name] = parseFloat(input.value);
+    switch (input.type) {
+        case 'range':
+            config[input.name] = parseFloat(input.value);
+            break;
+        case 'checkbox':
+            config[input.name] = input.checked;
+        default:
+            break;
+    }
 }
