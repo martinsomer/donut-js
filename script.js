@@ -1,7 +1,5 @@
-let A = 0;
-let B = 0;
-
 const config = {};
+const state = { x: 0, y: 0 };
 
 function render(context) {
     context.fillStyle = '#000';
@@ -25,13 +23,13 @@ function render(context) {
                 ],
                 [
                     [1, 0 , 0],
-                    [0, Math.cos(A), -Math.sin(A)],
-                    [0, Math.sin(A), Math.cos(A)]
+                    [0, Math.cos(state.x), -Math.sin(state.x)],
+                    [0, Math.sin(state.x), Math.cos(state.x)]
                 ],
                 [
-                    [Math.cos(B), 0, Math.sin(B)],
+                    [Math.cos(state.y), 0, Math.sin(state.y)],
                     [0, 1, 0],
-                    [-Math.sin(B), 0, Math.cos(B)]
+                    [-Math.sin(state.y), 0, Math.cos(state.y)]
                 ],
             );
 
@@ -48,8 +46,11 @@ function render(context) {
         }
     }
 
-    A += config.rotation_x;
-    B += config.rotation_y;
+    Object.assign(state, {
+        x: state.x + config.rotation_x,
+        y: state.y + config.rotation_y,
+    });
+
 }
 
 window.addEventListener('DOMContentLoaded', () => {
