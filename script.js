@@ -3,7 +3,7 @@ let B = 0;
 
 const config = {};
 
-function render (context) {
+function render(context) {
     context.fillStyle = '#000';
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
@@ -17,19 +17,22 @@ function render (context) {
                 [[config.r1 * Math.cos(theta), 0, config.r1 * Math.sin(theta)]]
             );
 
-            vertex = Matrix.multiply(vertex, [
+            vertex = Matrix.multiply(vertex,
+                [
                     [Math.cos(phi), -Math.sin(phi), 0],
                     [Math.sin(phi), Math.cos(phi), 0],
                     [0, 0, 1]
-                ], [
-                    [Math.cos(A), 0, Math.sin(A)],
-                    [0, 1, 0],
-                    [-Math.sin(A), 0, Math.cos(A)]
-                ], [
+                ],
+                [
                     [1, 0 , 0],
-                    [0, Math.cos(B), -Math.sin(B)],
-                    [0, Math.sin(B), Math.cos(0)]
-                ]
+                    [0, Math.cos(A), -Math.sin(A)],
+                    [0, Math.sin(A), Math.cos(A)]
+                ],
+                [
+                    [Math.cos(B), 0, Math.sin(B)],
+                    [0, 1, 0],
+                    [-Math.sin(B), 0, Math.cos(B)]
+                ],
             );
 
             const [x, y, z] = vertex[0];
@@ -62,8 +65,8 @@ window.addEventListener('DOMContentLoaded', () => {
     canvas.height = canvas.offsetHeight;
 
     (function tick() {
-        render(context)
-        setTimeout(tick, config.speed)
+        render(context);
+        setTimeout(tick, config.speed);
     })();
 });
 
