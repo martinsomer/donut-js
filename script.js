@@ -36,8 +36,8 @@ function render(context) {
             point = Matrix.multiply(point, rotation_matrix);
             const [x, y, z] = point[0];
 
-            xp = (config.k1 * x) / (config.k2 + z);
-            yp = (config.k1 * y) / (config.k2 + z);
+            let xp = (config.k1 * x) / (config.k2 + z);
+            let yp = (config.k1 * y) / (config.k2 + z);
 
             xp += context.canvas.width / 2;
             yp += context.canvas.height / 2;
