@@ -54,7 +54,7 @@ function render(context) {
             }
 
             context.fillStyle = `rgba(${config.color.red}, ${config.color.green}, ${config.color.blue}, ${luminance})`;
-            context.fillRect(xp, yp, 1.5, 1.5);
+            context.fillRect(xp, yp, config.dot_size, config.dot_size);
         }
     }
 
