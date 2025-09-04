@@ -24,14 +24,14 @@
             <aside>
                 <div class="title">Options</div>
                 <details>
-                    <summary>Dots</summary>
+                    <summary>Rendering</summary>
                     <label>
                         <span>Dots per circle</span>
-                        <input name="dots" type="range" min="1" max="64" step="1" value="20" />
+                        <input name="dot_count" type="range" min="1" max="64" step="1" value="20" />
                     </label>
                     <label>
                         <span>Circles per torus</span>
-                        <input name="slices" type="range" min="1" max="256" step="1" value="100" />
+                        <input name="circle_count" type="range" min="1" max="256" step="1" value="100" />
                     </label>
                     <label>
                         <span>Color</span>
@@ -39,24 +39,24 @@
                     </label>
                 </details>
                 <details>
-                    <summary>Radius</summary>
+                    <summary>Size</summary>
                     <label>
-                        <span>R1 (Donut radius)</span>
-                        <input name="r1" type="range" min="0.3" max="5" step="0.1" value="1" />
+                        <span>R1 (Circle radius)</span>
+                        <input name="r1" type="range" min="0.3" max="3" step="0.1" value="1" />
                     </label>
                     <label>
-                        <span>R2 (Donut hole radius)</span>
+                        <span>R2 (Torus radius)</span>
                         <input name="r2" type="range" min="0.3" max="5" step="0.1" value="2" />
                     </label>
                 </details>
                 <details>
-                    <summary>Distance</summary>
+                    <summary>Camera</summary>
                     <label>
-                        <span>K1 (Camera to screen distance)</span>
+                        <span>K1 (Focal length)</span>
                         <input name="k1" type="range" min="1" max="2048" step="1" value="512" />
                     </label>
                     <label>
-                        <spab>K2 (Camera to donut distance)</spab>
+                        <spab>K2 (Camera distance)</spab>
                         <input name="k2" type="range" min="1" max="64" step="1" value="8" />
                     </label>
                 </details>
@@ -71,15 +71,15 @@
                         <input name="rotation_y" type="range" min="0" max="0.5" step="0.01" value="0.02" />
                     </label>
                     <label>
-                        <span>Time per frame</span>
-                        <input name="speed" type="range" min="0", max="200" step="1" value="20" />
+                        <span>Time (ms) per frame</span>
+                        <input name="delay" type="range" min="0", max="200" step="1" value="20" />
                     </label>
                 </details>
                 <details>
                     <summary>Shading</summary>
                     <label>
                         <span>Enable shading</span>
-                        <input type="checkbox" name="shading" checked />
+                        <input name="shading" type="checkbox" checked />
                     </label>
                     <label>
                         <span>X (Left - right)</span>

@@ -5,8 +5,8 @@ function render(context) {
     context.fillStyle = '#000';
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
-    const theta_spacing = 2*Math.PI*config.r1 / config.dots;
-    const phi_spacing = 2*Math.PI*config.r2 / config.slices;
+    const theta_spacing = 2*Math.PI*config.r1 / config.dot_count;
+    const phi_spacing = 2*Math.PI*config.r2 / config.circle_count;
 
     for (let theta = 0; theta < 2*Math.PI; theta += theta_spacing) {
         for (let phi = 0; phi < 2*Math.PI; phi += phi_spacing) {
@@ -78,7 +78,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     (function tick() {
         render(context);
-        setTimeout(tick, config.speed);
+        setTimeout(tick, config.delay);
     })();
 });
 
