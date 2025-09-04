@@ -10,11 +10,6 @@ function render(context) {
 
     for (let theta = 0; theta < 2*Math.PI; theta += theta_spacing) {
         for (let phi = 0; phi < 2*Math.PI; phi += phi_spacing) {
-            let vertex = Matrix.add(
-                [[config.r2, 0, 0]],
-                [[config.r1 * Math.cos(theta), 0, config.r1 * Math.sin(theta)]],
-            );
-
             const rotation_matrix = Matrix.multiply(
                 [
                     [Math.cos(phi), -Math.sin(phi), 0],
@@ -33,14 +28,19 @@ function render(context) {
                 ],
             );
 
-            vertex = Matrix.multiply(vertex, rotation_matrix);
-            const [x, y, z] = vertex[0];
+            let point = Matrix.add(
+                [[config.r2, 0, 0]],
+                [[config.r1 * Math.cos(theta), 0, config.r1 * Math.sin(theta)]],
+            );
 
-            px = (config.k1 * x) / (config.k2 + z);
-            py = (config.k1 * y) / (config.k2 + z);
+            point = Matrix.multiply(point, rotation_matrix);
+            const [x, y, z] = point[0];
 
-            px += context.canvas.width / 2;
-            py += context.canvas.height / 2;
+            xp = (config.k1 * x) / (config.k2 + z);
+            yp = (config.k1 * y) / (config.k2 + z);
+
+            xp += context.canvas.width / 2;
+            yp += context.canvas.height / 2;
 
             let luminance = 1;
             if (config.shading) {
@@ -54,7 +54,7 @@ function render(context) {
             }
 
             context.fillStyle = `rgba(${config.color.red}, ${config.color.green}, ${config.color.blue}, ${luminance})`;
-            context.fillRect(px, py, 1.5, 1.5);
+            context.fillRect(xp, yp, 1.5, 1.5);
         }
     }
 
