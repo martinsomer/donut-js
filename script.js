@@ -96,6 +96,7 @@ function update (input) {
                 green: parseInt(input.value.substr(3,2), 16),
                 blue: parseInt(input.value.substr(5,2), 16),
             };
+            break;
         default:
             break;
     }
