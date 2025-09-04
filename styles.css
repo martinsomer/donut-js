@@ -59,7 +59,9 @@ aside label {
     gap: 0.25rem;
 }
 
-aside label:has(input[type="checkbox"]) {
+aside label:has(input[type="checkbox"]),
+aside label:has(input[type="color"]) {
+    align-items: center;
     flex-direction: row;
     gap: 1rem;
 }

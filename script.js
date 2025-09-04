@@ -53,7 +53,7 @@ function render(context) {
                 luminance = nx * config.light_x + ny * config.light_y + nz * config.light_z;
             }
 
-            context.fillStyle = `rgba(255, 255, 255, ${luminance})`;
+            context.fillStyle = `rgba(${config.color.red}, ${config.color.green}, ${config.color.blue}, ${luminance})`;
             context.fillRect(px, py, 1.5, 1.5);
         }
     }
@@ -89,6 +89,13 @@ function update (input) {
             break;
         case 'checkbox':
             config[input.name] = input.checked;
+            break;
+        case 'color':
+            config[input.name] = {
+                red: parseInt(input.value.substr(1,2), 16),
+                green: parseInt(input.value.substr(3,2), 16),
+                blue: parseInt(input.value.substr(5,2), 16),
+            };
         default:
             break;
     }
